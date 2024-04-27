@@ -1,6 +1,8 @@
 package sortTest;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import loginTest.LoginData;
+import org.json.simple.parser.ParseException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
@@ -10,15 +12,18 @@ import org.testng.annotations.Test;
 import pages.HomePage;
 import pages.LoginPage;
 
+import java.io.IOException;
 import java.util.List;
 
 public class SortTest {
     private WebDriver driver;
     @Test
-    public void testPriceDescendingSort() {
+    public void testPriceDescendingSort() throws IOException, ParseException {
+        LoginData loginData=new LoginData(driver);
+        loginData.loginDataProvider();
         LoginPage loginPage=new LoginPage(driver);
-        loginPage.enterUserName("standard_user");
-        loginPage.enterPassword("secret_sauce");
+        loginPage.enterUserName(loginData.getUserName());
+        loginPage.enterPassword(loginData.getPassword());
         HomePage homepage = loginPage.clickLogin();
         List<Double> beforeSort = homepage.beforeSort();
         System.out.println(homepage.beforeSort());

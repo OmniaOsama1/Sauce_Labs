@@ -1,6 +1,7 @@
 package loginTest;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.json.simple.parser.ParseException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
@@ -8,13 +9,17 @@ import org.testng.annotations.*;
 import pages.HomePage;
 import pages.LoginPage;
 
+import java.io.IOException;
+
 public class LoginTest {
     WebDriver driver;
     @Test (priority=1)
-    public void testLogin_ValidCredentials(){
+    public void testLogin_ValidCredentials() throws IOException, ParseException {
+        LoginData loginData=new LoginData(driver);
+        loginData.loginDataProvider();
         LoginPage loginPage=new LoginPage(driver);
-        loginPage.enterUserName("standard_user");
-        loginPage.enterPassword("secret_sauce");
+        loginPage.enterUserName(loginData.getUserName());
+        loginPage.enterPassword(loginData.getPassword());
         HomePage homePage= loginPage.clickLogin();
         String homePageTitle= homePage.getHomePageTitle();
         Assert.assertEquals(homePageTitle,"Swag Labs","Incorrect Page Title");

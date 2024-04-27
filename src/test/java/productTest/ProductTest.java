@@ -1,6 +1,8 @@
 package productTest;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import loginTest.LoginData;
+import org.json.simple.parser.ParseException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
@@ -11,13 +13,17 @@ import pages.HomePage;
 import pages.LoginPage;
 import pages.ProductPage;
 
+import java.io.IOException;
+
 public class ProductTest {
     private WebDriver driver;
     @Test
-    public void testProduct(){
+    public void testProduct() throws IOException, ParseException {
+        LoginData loginData=new LoginData(driver);
+        loginData.loginDataProvider();
         LoginPage loginPage=new LoginPage(driver);
-        loginPage.enterUserName("standard_user");
-        loginPage.enterPassword("secret_sauce");
+        loginPage.enterUserName(loginData.getUserName());
+        loginPage.enterPassword(loginData.getPassword());
         HomePage homePage=loginPage.clickLogin();
         ProductPage product =homePage.enterProductPage();
         var productName= product.getProductName();

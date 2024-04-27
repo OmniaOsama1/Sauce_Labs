@@ -56,8 +56,8 @@ public class HomePage {
 
     public void logOut() {
         driver.findElement(sideBarMenu).click();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(sideBarMenu));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wait.until(ExpectedConditions.elementToBeClickable(LogOut));
         driver.findElement(LogOut).click();
     }
 
